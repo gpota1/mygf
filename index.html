@@ -1,138 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Important Question 💘</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine 💘</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(135deg, #ff4d6d, #ff8fab, #ffc2d1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;   /* FIXED MOBILE SCROLL */
-  overflow-x: hidden;
-  padding: 20px;
-  text-align: center;
-  color: white;
-}
+  :root{
+    --tile-size: 520px;         /* pattern scale */
+    --sil-size: 260px;          /* silhouette scale */
+    --sil-opacity: 0.18;        /* watermark strength */
+  }
 
-.container {
-  background: rgba(0, 0, 0, 0.65);
-  padding: 30px;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    padding:24px;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 
-img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 20px;
-}
+    /* Layer 1: silhouette (repeating), Layer 2: pattern (repeating) */
+    background-image:
+      linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), /* darken for readability */
+      url("silhouette.png"),
+      url("pattern.png");
+    background-repeat: repeat, repeat, repeat;
+    background-size: auto, var(--sil-size) auto, var(--tile-size) auto;
+    background-position: center, 0 0, 0 0;
+    background-blend-mode: multiply, normal, normal;
+  }
 
-h1 {
-  margin-bottom: 10px;
-}
+  /* Make silhouette look “inked” and softer */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image: url("silhouette.png");
+    background-repeat: repeat;
+    background-size: var(--sil-size) auto;
+    opacity: var(--sil-opacity);
+    filter: contrast(120%) saturate(0%) blur(0.2px);
+    mix-blend-mode: multiply;
+  }
 
-button {
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  margin: 8px;
-  transition: 0.2s ease;
-}
+  .card{
+    width: min(520px, 92vw);
+    background: rgba(0,0,0,0.65);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+    position:relative;
+  }
 
-#yesBtn {
-  background: #ff4d6d;
-  color: white;
-}
+  h1{ margin: 0 0 10px; font-size: 28px; }
+  p{ margin: 0 0 18px; opacity: 0.95; }
 
-#yesBtn:hover {
-  transform: scale(1.1);
-}
+  .btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  button{
+    border:0; cursor:pointer;
+    padding:12px 18px;
+    border-radius:14px;
+    font-weight:800;
+    font-size:16px;
+    transition: transform .12s ease;
+  }
+  button:active{ transform: scale(.98); }
 
-#noBtn {
-  background: white;
-  color: black;
-  position: relative;
-}
+  #yesBtn{ background:#ff4d6d; color:white; }
+  #noBtn{ background: rgba(255,255,255,0.9); color:#111; }
 
-#message {
-  margin-top: 20px;
-  font-weight: bold;
-  min-height: 24px;
-}
+  #msg{ margin-top:16px; min-height:24px; font-weight:800; }
 
-.celebrate {
-  animation: pulse 0.6s ease infinite alternate;
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
+  /* If you want the “No” button not to jump off-screen on small screens */
+  @media (max-width: 420px){
+    :root{ --sil-size: 210px; --tile-size: 460px; }
+  }
 </style>
 </head>
 
 <body>
+  <div class="card">
+    <h1>🚨 IMPORTANT QUESTION 🚨</h1>
+     <p>I know that you were rly looking fwd for me to do smt like that and since I rly miss u and I wanna make you happy I do it.
+  Sooooooooo, here's the question:</p>
+    <h2>Will you be my Valentine? 💘</h2>
 
-<div class="container">
-  <img src="us.jpg" alt="Us being adorable">
+    <div class="btns">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">No 😈</button>
+    </div>
 
-  <h1>🚨 VERY IMPORTANT QUESTION 🚨</h1>
-  <p>I have conducted extensive research and determined something critical...</p>
-
-  <h2>Will you be my Valentine? 💘</h2>
-
-  <button id="yesBtn">YES 💖</button>
-  <button id="noBtn">No 😈</button>
-
-  <div id="message"></div>
-</div>
+    <div id="msg"></div>
+  </div>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const message = document.getElementById("message");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn  = document.getElementById("noBtn");
+  const msg    = document.getElementById("msg");
 
-const noResponses = [
-  "Are you sure? 🥺",
-  "Double sure?? 😳",
-  "That seems incorrect 🤨",
-  "The 'No' button is suspicious 🤔",
-  "At this point you're just teasing me 😤"
-];
+  const noLines = [
+    "Are you sure? 🥺",
+    "Double sure?? 😳",
+    "That answer seems… suspicious 🤨",
+    "I’m calling customer support (Cupid) 📞",
+    "Ok you’re just teasing me 😤"
+  ];
+  let noCount = 0;
 
-let noCount = 0;
+  // Move "No" only on devices that actually have hover (desktop/laptop)
+  if (window.matchMedia("(hover: hover)").matches) {
+    noBtn.addEventListener("mouseover", () => {
+      const dx = (Math.random() * 220) - 110;
+      const dy = (Math.random() * 140) - 70;
+      noBtn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+  }
 
-// Only move button on devices that support hover (desktop)
-if (window.matchMedia("(hover: hover)").matches) {
-  noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * 200 - 100;
-    const y = Math.random() * 150 - 75;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  noBtn.addEventListener("click", () => {
+    msg.textContent = noLines[Math.min(noCount, noLines.length - 1)];
+    noCount++;
   });
-}
 
-noBtn.addEventListener("click", () => {
-  message.textContent = noResponses[Math.min(noCount, noResponses.length - 1)];
-  noCount++;
-});
-
-yesBtn.addEventListener("click", () => {
-  document.body.style.background = "linear-gradient(135deg,#ff006e,#ffbe0b)";
-  message.innerHTML = "YAYYYYY 🥰💖 BEST DECISION EVER 🎉<br>I love youuuuu!";
-  yesBtn.classList.add("celebrate");
-  noBtn.style.display = "none";
-});
+  yesBtn.addEventListener("click", () => {
+    msg.innerHTML = "YAYYYYY 🥰💖🎉<br>Valentine mode: ACTIVATED.";
+    noBtn.style.display = "none";
+    yesBtn.textContent = "I KNEW IT 😌💞";
+  });
 </script>
-
 </body>
 </html>
