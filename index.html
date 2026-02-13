@@ -1,180 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine 💘</title>
 
 <style>
+:root{
+  --pattern-size: 520px;   /* scale of base pattern */
+  --sil-size: 150px;       /* size of small repeating silhouette */
+  --sil-opacity: 0.35;     /* visibility of silhouettes */
+}
+
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  padding:24px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#fff;
+
+  /* Base pattern layer */
+  background-image: url("pattern.png");
+  background-repeat: repeat;
+  background-size: var(--pattern-size) auto;
+}
+
+/* Repeated silhouette overlay */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background-image: url("silhouette.PNG");
+  background-repeat: repeat;
+  background-size: var(--sil-size) auto;
+
+  /* Offset so it doesn't align perfectly with pattern */
+  background-position: 80px 40px;
+
+  opacity: var(--sil-opacity);
+}
+
+/* Slight dark overlay for readability */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 2;
+  pointer-events:none;
+}
+
+.wrapper{
+  position: relative;
+  z-index: 3;
+  width: min(560px, 92vw);
+}
+
+/* Center Photo */
+.photo{
+  width:100%;
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:18px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+}
+
+.photo img{
+  width:100%;
+  display:block;
+}
+
+/* Card */
+.card{
+  background: rgba(0,0,0,0.75);
+  padding:24px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+}
+
+h1{ margin:0 0 8px; font-size:26px; }
+p{ margin:0 0 12px; }
+h2{ margin:0 0 16px; font-size:22px; }
+
+.btns{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+button{
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:bold;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  transition: transform .15s ease;
+}
+
+button:active{
+  transform: scale(.96);
+}
+
+#yesBtn{
+  background:#ff4d6d;
+  color:white;
+}
+
+#noBtn{
+  background:white;
+  color:black;
+}
+
+#msg{
+  margin-top:14px;
+  min-height:22px;
+  font-weight:bold;
+}
+
+/* Mobile adjustments */
+@media (max-width:420px){
   :root{
-    --pattern-size: 520px;     /* scale of the abstract pattern */
-    --sil-size: 170px;         /* size of repeated silhouette */
-    --sil-opacity: 0.16;       /* how visible the silhouette overlay is */
+    --pattern-size: 450px;
+    --sil-size: 130px;
   }
-
-  body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    padding: 24px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:#fff;
-
-    /* base repeating pattern */
-    background-image: url("pattern.png");
-    background-repeat: repeat;
-    background-size: var(--pattern-size) auto;
-  }
-
-  /* repeated silhouette overlay on top of the pattern */
-  body::before{
-    content:"";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-
-    background-image: url("silhouette.PNG");
-    background-repeat: repeat;
-    background-size: var(--sil-size) auto;
-    background-position: 0 0;
-
-    opacity: var(--sil-opacity);
-
-    /* makes silhouette look like a soft watermark */
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
-    mix-blend-mode: multiply;
-  }
-
-  /* dark overlay so text + center photo pop */
-  .overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.20);
-    z-index: 1;
-    pointer-events:none;
-  }
-
-  .wrap{
-    position: relative;
-    z-index: 2;
-    width: min(560px, 92vw);
-  }
-
-  .photo{
-    width: 100%;
-    border-radius: 18px;
-    overflow:hidden;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 20px 70px rgba(0,0,0,0.35);
-    background: rgba(0,0,0,0.15);
-    margin-bottom: 16px;
-  }
-
-  .photo img{
-    width: 100%;
-    display:block;
-    height:auto;
-  }
-
-  .card{
-    background: rgba(0,0,0,0.70);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 20px;
-    padding: 22px;
-    box-shadow: 0 18px 60px rgba(0,0,0,0.35);
-    backdrop-filter: blur(8px);
-  }
-
-  h1{ margin: 0 0 8px; font-size: 26px; }
-  p{ margin: 0 0 14px; opacity: .95; }
-  h2{ margin: 0 0 12px; font-size: 22px; }
-
-  .btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-
-  button{
-    border:0;
-    cursor:pointer;
-    padding: 12px 18px;
-    border-radius: 14px;
-    font-weight: 800;
-    font-size: 16px;
-    transition: transform .12s ease;
-  }
-  button:active{ transform: scale(.98); }
-
-  #yesBtn{ background:#ff4d6d; color:#fff; }
-  #noBtn{ background: rgba(255,255,255,0.92); color:#111; }
-
-  #msg{
-    margin-top: 14px;
-    min-height: 22px;
-    font-weight: 800;
-  }
-
-  /* keep things nice on small screens */
-  @media (max-width: 420px){
-    :root{
-      --pattern-size: 460px;
-      --sil-size: 145px;
-      --sil-opacity: 0.15;
-    }
-    h1{ font-size: 24px; }
-  }
+}
 </style>
 </head>
 
 <body>
-  <div class="overlay"></div>
 
-  <div class="wrap">
-    <!-- Your real photo in the middle -->
-    <div class="photo">
-      <img src="us.jpg" alt="Us" />
-    </div>
+<div class="wrapper">
 
-    <div class="card">
-      <h1>🚨 IMPORTANT QUESTION 🚨</h1>
-      <p>I ran the numbers (very scientific). The results say you’re my favorite person.</p>
-      <h2>Will you be my Valentine? 💘</h2>
-
-      <div class="btns">
-        <button id="yesBtn">YES 💖</button>
-        <button id="noBtn">No 😈</button>
-      </div>
-
-      <div id="msg"></div>
-    </div>
+  <div class="photo">
+    <img src="us.jpg" alt="Us">
   </div>
 
+  <div class="card">
+    <h1>🚨 IMPORTANT QUESTION 🚨</h1>
+    <p>I ran the numbers (very scientific). The results say you're my favorite person.</p>
+    <h2>Will you be my Valentine? 💘</h2>
+
+    <div class="btns">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">No 😈</button>
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+</div>
+
 <script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn  = document.getElementById("noBtn");
-  const msg    = document.getElementById("msg");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const msg = document.getElementById("msg");
 
-  const noLines = [
-    "Are you sure? 🥺",
-    "Double sure?? 😳",
-    "That answer seems… suspicious 🤨",
-    "I’m calling Cupid’s tech support 📞",
-    "Ok you’re just teasing me 😤"
-  ];
-  let noCount = 0;
+const noLines = [
+  "Are you sure? 🥺",
+  "Double sure?? 😳",
+  "That seems incorrect 🤨",
+  "Cupid is watching you 👀",
+  "Okay now you're just teasing me 😤"
+];
 
-  noBtn.addEventListener("click", () => {
-    msg.textContent = noLines[Math.min(noCount, noLines.length - 1)];
-    noCount++;
-  });
+let count = 0;
 
-  yesBtn.addEventListener("click", () => {
-    msg.innerHTML = "YAYYYYY 🥰💖🎉<br>Valentine mode: ACTIVATED.";
-    noBtn.style.display = "none";
-    yesBtn.textContent = "I KNEW IT 😌💞";
-  });
+noBtn.addEventListener("click", () => {
+  msg.textContent = noLines[Math.min(count, noLines.length - 1)];
+  count++;
+});
+
+yesBtn.addEventListener("click", () => {
+  msg.innerHTML = "YAYYYYY 🥰💖🎉<br>Valentine mode ACTIVATED!";
+  noBtn.style.display = "none";
+  yesBtn.textContent = "I KNEW IT 😌💞";
+});
 </script>
+
 </body>
 </html>
