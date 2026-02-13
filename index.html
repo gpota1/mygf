@@ -7,9 +7,8 @@
 
 <style>
 :root{
-  --pattern-size: 520px;   /* scale of base pattern */
-  --sil-size: 150px;       /* size of small repeating silhouette */
-  --sil-opacity: 0.35;     /* visibility of silhouettes */
+  --sil-size: 140px;     /* size of repeated silhouette */
+  --sil-opacity: 0.25;   /* strength of silhouettes */
 }
 
 body{
@@ -24,10 +23,8 @@ body{
   text-align:center;
   color:#fff;
 
-  /* Base pattern layer */
-  background-image: url("pattern.png");
-  background-repeat: repeat;
-  background-size: var(--pattern-size) auto;
+  /* Light romantic pink background */
+  background: #ffc0d9;
 }
 
 /* Repeated silhouette overlay */
@@ -42,19 +39,16 @@ body::before{
   background-repeat: repeat;
   background-size: var(--sil-size) auto;
 
-  /* Offset so it doesn't align perfectly with pattern */
-  background-position: 80px 40px;
-
   opacity: var(--sil-opacity);
 }
 
-/* Slight dark overlay for readability */
+/* Slight soft glow overlay */
 body::after{
   content:"";
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 2;
+  inset:0;
+  background: rgba(255,255,255,0.1);
+  z-index:2;
   pointer-events:none;
 }
 
@@ -70,7 +64,7 @@ body::after{
   border-radius:18px;
   overflow:hidden;
   margin-bottom:18px;
-  box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.35);
 }
 
 .photo img{
@@ -83,7 +77,6 @@ body::after{
   background: rgba(0,0,0,0.75);
   padding:24px;
   border-radius:20px;
-  border:1px solid rgba(255,255,255,0.15);
   backdrop-filter: blur(6px);
 }
 
@@ -131,8 +124,7 @@ button:active{
 /* Mobile adjustments */
 @media (max-width:420px){
   :root{
-    --pattern-size: 450px;
-    --sil-size: 130px;
+    --sil-size: 110px;
   }
 }
 </style>
@@ -171,7 +163,7 @@ const noLines = [
   "Double sure?? 😳",
   "That seems incorrect 🤨",
   "Cupid is watching you 👀",
-  "Okay now you're just teasing me 😤"
+  "Okay now you're teasing me 😤"
 ];
 
 let count = 0;
