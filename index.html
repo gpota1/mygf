@@ -1,139 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine 💘</title>
 
 <style>
-  :root{
-    --tile-size: 520px;         /* pattern scale */
-    --sil-size: 260px;          /* silhouette scale */
-    --sil-opacity: 0.18;        /* watermark strength */
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: url("pattern.png");
+  background-size: 500px;
+  background-repeat: repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
 
-  body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-    padding:24px;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
+/* DARK OVERLAY so silhouette is visible */
+.overlay {
+  width: 100%;
+  min-height: 100vh;
+  background: rgba(0,0,0,0.6);
+  padding: 30px 20px;
+}
 
-    /* Layer 1: silhouette (repeating), Layer 2: pattern (repeating) */
-    background-image:
-      linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), /* darken for readability */
-      url("silhouette.png"),
-      url("pattern.png");
-    background-repeat: repeat, repeat, repeat;
-    background-size: auto, var(--sil-size) auto, var(--tile-size) auto;
-    background-position: center, 0 0, 0 0;
-    background-blend-mode: multiply, normal, normal;
-  }
+/* BIG SILHOUETTE */
+.hero {
+  max-width: 300px;
+  width: 80%;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
+}
 
-  /* Make silhouette look “inked” and softer */
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background-image: url("silhouette.png");
-    background-repeat: repeat;
-    background-size: var(--sil-size) auto;
-    opacity: var(--sil-opacity);
-    filter: contrast(120%) saturate(0%) blur(0.2px);
-    mix-blend-mode: multiply;
-  }
+.card {
+  max-width: 500px;
+  margin: auto;
+}
 
-  .card{
-    width: min(520px, 92vw);
-    background: rgba(0,0,0,0.65);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 20px;
-    padding: 26px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    backdrop-filter: blur(8px);
-    position:relative;
-  }
+button {
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 8px;
+}
 
-  h1{ margin: 0 0 10px; font-size: 28px; }
-  p{ margin: 0 0 18px; opacity: 0.95; }
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+}
 
-  .btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  button{
-    border:0; cursor:pointer;
-    padding:12px 18px;
-    border-radius:14px;
-    font-weight:800;
-    font-size:16px;
-    transition: transform .12s ease;
-  }
-  button:active{ transform: scale(.98); }
+#noBtn {
+  background: white;
+  color: black;
+}
 
-  #yesBtn{ background:#ff4d6d; color:white; }
-  #noBtn{ background: rgba(255,255,255,0.9); color:#111; }
-
-  #msg{ margin-top:16px; min-height:24px; font-weight:800; }
-
-  /* If you want the “No” button not to jump off-screen on small screens */
-  @media (max-width: 420px){
-    :root{ --sil-size: 210px; --tile-size: 460px; }
-  }
+#msg {
+  margin-top: 20px;
+  font-weight: bold;
+  min-height: 24px;
+}
 </style>
 </head>
 
 <body>
+
+<div class="overlay">
+
+  <!-- THIS IS YOUR SILHOUETTE -->
+  <img src="silhouette.PNG" class="hero" alt="Us">
+
   <div class="card">
     <h1>🚨 IMPORTANT QUESTION 🚨</h1>
-     <p>I know that you were rly looking fwd for me to do smt like that and since I rly miss u and I wanna make you happy I do it.
-  Sooooooooo, here's the question:</p>
+    <p>I ran the numbers. The results say you’re my favorite person.</p>
     <h2>Will you be my Valentine? 💘</h2>
 
-    <div class="btns">
-      <button id="yesBtn">YES 💖</button>
-      <button id="noBtn">No 😈</button>
-    </div>
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">No 😈</button>
 
     <div id="msg"></div>
   </div>
 
+</div>
+
 <script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn  = document.getElementById("noBtn");
-  const msg    = document.getElementById("msg");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const msg = document.getElementById("msg");
 
-  const noLines = [
-    "Are you sure? 🥺",
-    "Double sure?? 😳",
-    "That answer seems… suspicious 🤨",
-    "I’m calling customer support (Cupid) 📞",
-    "Ok you’re just teasing me 😤"
-  ];
-  let noCount = 0;
+const responses = [
+  "Are you sure? 🥺",
+  "Double sure?? 😳",
+  "That answer seems incorrect 🤨",
+  "Okay now you're just teasing me 😤"
+];
 
-  // Move "No" only on devices that actually have hover (desktop/laptop)
-  if (window.matchMedia("(hover: hover)").matches) {
-    noBtn.addEventListener("mouseover", () => {
-      const dx = (Math.random() * 220) - 110;
-      const dy = (Math.random() * 140) - 70;
-      noBtn.style.transform = `translate(${dx}px, ${dy}px)`;
-    });
-  }
+let count = 0;
 
-  noBtn.addEventListener("click", () => {
-    msg.textContent = noLines[Math.min(noCount, noLines.length - 1)];
-    noCount++;
-  });
+noBtn.addEventListener("click", () => {
+  msg.textContent = responses[Math.min(count, responses.length - 1)];
+  count++;
+});
 
-  yesBtn.addEventListener("click", () => {
-    msg.innerHTML = "YAYYYYY 🥰💖🎉<br>Valentine mode: ACTIVATED.";
-    noBtn.style.display = "none";
-    yesBtn.textContent = "I KNEW IT 😌💞";
-  });
+yesBtn.addEventListener("click", () => {
+  msg.innerHTML = "YAYYYYY 🥰💖🎉<br>Valentine mode activated!";
+  noBtn.style.display = "none";
+});
 </script>
+
 </body>
 </html>
